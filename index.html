@@ -41,8 +41,9 @@ function make(type,v,c){const sum='\\displaystyle\\sum_{k=1}^{'+v.top+'}';let qu
 }
 function numeric(m){return {top:String(m),first:String(m),second:String(m+1),third:String(2*m+1),constant:String(m)}}
 function deck(){const cards=[];for(const type of ['linear','square','constant']){
- for(const v of variants)cards.push(make(type,v,type==='constant'?[2,3,5,7][Math.floor(Math.random()*4)]:0));
- cards.push(make(type,numeric(4+Math.floor(Math.random()*9)),type==='constant'?[2,3,5,7][Math.floor(Math.random()*4)]:0));
+ const coefficient=()=>type==='constant'?[2,3,5,7][Math.floor(Math.random()*4)]:0;
+ cards.push(make(type,variants[['linear','square','constant'].indexOf(type)],coefficient()));
+ for(const m of shuffle([4,5,6,7,8,9,10,11,12]).slice(0,3))cards.push(make(type,numeric(m),coefficient()));
  }return shuffle(cards)}
 const M='http://www.w3.org/1998/Math/MathML';
 function render(target,tex){if(window.katex){try{window.katex.render(tex,target,{throwOnError:true,output:'htmlAndMathml'});return}catch(e){console.warn(e)}}
